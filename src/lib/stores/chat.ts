@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { Message, ChatStore } from '@/types/chat';
 import { generateId } from '@/lib/utils';
 
-export const useChatStore = create<ChatStore>((set, get) => ({
+export const useChatStore = create<ChatStore>((set) => ({
   messages: [],
   isLoading: false,
   
