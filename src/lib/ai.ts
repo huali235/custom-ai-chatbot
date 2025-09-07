@@ -10,7 +10,7 @@ export const getAIModel = () => {
       return anthropic('claude-3-sonnet-20240229');
     case 'openai':
     default:
-      return openai('gpt-4-turbo-preview');
+      return openai('gpt-4o-mini');
   }
 };
 
