@@ -30,21 +30,23 @@ const quickActions: QuickAction[] = [
 
 export function QuickActions({ onQuickAction }: QuickActionsProps) {
   return (
-    <div className="space-y-3">
-      <p className="text-center text-gray-600 text-sm font-medium">Quick Actions</p>
-      <div className="flex flex-col sm:flex-row gap-3 justify-center">
+    <div className="space-y-4">
+      <div className="flex flex-wrap gap-3">
         {quickActions.map((action) => (
           <Button
             key={action.id}
             variant="outline"
             size="sm"
             onClick={() => onQuickAction(action.prompt)}
-            className="bg-white/90 backdrop-blur-sm hover:bg-white border-white/50 hover:border-gray-300/70 transition-all duration-200 hover:scale-105 hover:shadow-md text-gray-700 hover:text-gray-800 group"
+            className="bg-white/60 backdrop-blur-sm hover:bg-white/80 border-gray-200/40 hover:border-gray-300/60 transition-all duration-200 text-gray-700 hover:text-gray-800 rounded-xl px-4 py-3 h-auto group"
           >
-            <span className="mr-2 text-lg group-hover:scale-110 transition-transform duration-200">{action.emoji}</span>
-            <span className="text-xs font-medium">{action.label}</span>
+            <span className="mr-2 text-base">{action.emoji}</span>
+            <span className="text-sm font-medium">{action.label}</span>
           </Button>
         ))}
+      </div>
+      <div className="text-center">
+        <p className="text-xs text-gray-400 font-normal">Powered by Claude</p>
       </div>
     </div>
   );
