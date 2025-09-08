@@ -11,29 +11,18 @@ export function VideoBackground({ className }: VideoBackgroundProps) {
 
   return (
     <div className={`fixed inset-0 -z-10 ${className}`}>
-      {/* Desert/landscape themed fallback background */}
+      {/* Desert image fallback background */}
       <div 
         className={`w-full h-full transition-opacity duration-1000 ${
           videoLoaded ? 'opacity-0' : 'opacity-100'
         }`}
         style={{
-          background: `
-            radial-gradient(ellipse at center top, #fbbf24 0%, #f59e0b 25%, #d97706 50%),
-            linear-gradient(135deg, #fed7aa 0%, #fdba74 25%, #fb923c 50%, #f97316 75%, #ea580c 100%)
-          `,
-          backgroundSize: '100% 40%, 100% 100%',
-          backgroundPosition: '0 0, 0 0',
+          backgroundImage: 'url(/assets/desert-pic.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat'
         }}
       >
-        {/* Desert texture overlay */}
-        <div 
-          className="w-full h-full opacity-20"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cpattern id='desert' patternUnits='userSpaceOnUse' width='120' height='120'%3E%3Cpath d='M0 0h120v120H0z' fill='%23000000' fill-opacity='0.02'/%3E%3Cpath d='m0 60 30-30h60l30 30v60H0z' fill='%23000000' fill-opacity='0.03'/%3E%3Cpath d='M30 30h60v60H30z' fill='%23000000' fill-opacity='0.01'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23desert)'/%3E%3C/svg%3E")`
-          }}
-        />
-        
         {/* Atmospheric depth layers */}
         <div className="absolute inset-0 bg-gradient-to-t from-amber-900/10 via-transparent to-sky-200/20" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-amber-800/5" />
