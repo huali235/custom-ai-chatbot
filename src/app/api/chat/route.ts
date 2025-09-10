@@ -13,12 +13,10 @@ export async function POST(req: Request) {
       return new Response('Invalid messages format', { status: 400 });
     }
 
-    const result = await streamText({
+    const result = streamText({
       model: getAIModel(),
       system: systemPrompt,
       messages: convertToModelMessages(messages),
-      maxTokens: 1000,
-      temperature: 0.7,
     });
 
     return result.toUIMessageStreamResponse();
