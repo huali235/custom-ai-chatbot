@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Settings, X, Sparkles, Zap, Volume2, VolumeX } from "lucide-react";
 import { Button } from "./ui/Button";
@@ -48,6 +48,28 @@ const saveSettings = (settings: ChatSettings) => {
 
 export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
   const [settings, setSettings] = useState<ChatSettings>(loadSettings);
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  // Focus management and keyboard handling
+  useEffect(() => {
+    if (isOpen) {
+      // Focus the modal when it opens
+      modalRef.current?.focus();
+      
+      // Handle escape key
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') {
+          onClose();
+        }
+      };
+      
+      document.addEventListener('keydown', handleKeyDown);
+      
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [isOpen, onClose]);
 
   const updateSetting = <K extends keyof ChatSettings>(
     key: K,
@@ -121,18 +143,23 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
           initial="hidden"
           animate="visible"
           exit="exit"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="settings-title"
         >
           {/* Backdrop */}
           <motion.div 
-            className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/30 backdrop-blur-sm"
             onClick={onClose}
           />
           
           {/* Settings Panel */}
           <motion.div 
+            ref={modalRef}
             className="relative w-full max-w-md bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl border border-white/30 overflow-hidden"
             variants={panelVariants}
             onClick={(e) => e.stopPropagation()}
+            tabIndex={-1}
           >
             {/* Header */}
             <motion.div 
@@ -144,7 +171,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
                     <Settings className="w-4 h-4 text-white" />
                   </div>
-                  <h2 className="text-lg font-semibold text-gray-900">Settings</h2>
+                  <h2 id="settings-title" className="text-lg font-semibold text-gray-900">Settings</h2>
                 </div>
                 <Button
                   variant="ghost"
@@ -173,7 +200,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   </div>
                 </div>
                 <motion.button
-                  className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                  className={`relative w-11 h-6 rounded-full transition-colors duration-200 flex items-center ${
                     settings.animationsEnabled ? 'bg-blue-600' : 'bg-gray-200'
                   }`}
                   onClick={() => updateSetting('animationsEnabled', !settings.animationsEnabled)}
@@ -181,12 +208,15 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   whileTap={{ scale: 0.95 }}
                 >
                   <motion.div 
-                    className="w-4 h-4 bg-white rounded-full shadow-sm"
+                    className="w-4 h-4 bg-white rounded-full shadow-sm absolute"
                     animate={{ 
-                      x: settings.animationsEnabled ? 20 : 2,
-                      y: 4 
+                      x: settings.animationsEnabled ? 26 : 2
                     }}
                     transition={{ duration: 0.2, ease: "easeInOut" }}
+                    style={{
+                      top: '18%',
+                      transform: 'translateY(-18%)'
+                    }}
                   />
                 </motion.button>
               </motion.div>
@@ -208,7 +238,7 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   </div>
                 </div>
                 <motion.button
-                  className={`relative w-11 h-6 rounded-full transition-colors duration-200 ${
+                  className={`relative w-11 h-6 rounded-full transition-colors duration-200 flex items-center ${
                     settings.soundEnabled ? 'bg-green-600' : 'bg-gray-200'
                   }`}
                   onClick={() => updateSetting('soundEnabled', !settings.soundEnabled)}
@@ -216,12 +246,15 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
                   whileTap={{ scale: 0.95 }}
                 >
                   <motion.div 
-                    className="w-4 h-4 bg-white rounded-full shadow-sm"
+                    className="w-4 h-4 bg-white rounded-full shadow-sm absolute"
                     animate={{ 
-                      x: settings.soundEnabled ? 20 : 2,
-                      y: 4 
+                      x: settings.soundEnabled ? 26 : 2
                     }}
                     transition={{ duration: 0.2, ease: "easeInOut" }}
+                    style={{
+                      top: '18%',
+                      transform: 'translateY(-18%)'
+                    }}
                   />
                 </motion.button>
               </motion.div>

@@ -9,8 +9,8 @@ import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { QuickActions } from "./QuickActions";
 import { TypingIndicator } from "./TypingIndicator";
-import { Send, RotateCcw, Settings, Download, Copy } from "lucide-react";
-import { SettingsPanel, useSettings } from "./SettingsPanel";
+import { Send, RotateCcw, Download, Copy } from "lucide-react";
+import { useSettings } from "./SettingsPanel";
 
 // Session storage key for message persistence
 const CHAT_SESSION_KEY = 'travel-chat-session';
@@ -36,7 +36,6 @@ const loadMessagesFromSession = () => {
 
 export function ChatInterface() {
   const [inputValue, setInputValue] = useState("");
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { settings } = useSettings();
   
@@ -240,18 +239,6 @@ export function ChatInterface() {
           
           {/* Action buttons */}
           <div className="flex items-center gap-2">
-            {/* Settings button */}
-            <motion.button
-              onClick={() => setIsSettingsOpen(true)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-500 hover:text-gray-700 hover:bg-gray-100/50 rounded-lg transition-all duration-200"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              title="Settings"
-            >
-              <Settings className="w-4 h-4" />
-              <span className="hidden sm:inline">Settings</span>
-            </motion.button>
-
             {/* Conversation management - only show if there are messages */}
             <AnimatePresence>
               {messages.length > 0 && (
@@ -381,11 +368,6 @@ export function ChatInterface() {
         )}
       </AnimatePresence>
 
-      {/* Settings Panel */}
-      <SettingsPanel 
-        isOpen={isSettingsOpen} 
-        onClose={() => setIsSettingsOpen(false)} 
-      />
     </motion.div>
   );
 }
