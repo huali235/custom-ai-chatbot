@@ -9,7 +9,7 @@ import { Input } from "./ui/Input";
 import { Button } from "./ui/Button";
 import { QuickActions } from "./QuickActions";
 import { TypingIndicator } from "./TypingIndicator";
-import { Send, RotateCcw, Download, Copy } from "lucide-react";
+import { SendHorizonal, RotateCcw, Download, Copy } from "lucide-react";
 import { useSettings } from "./SettingsPanel";
 
 // Session storage key for message persistence
@@ -329,29 +329,6 @@ export function ChatInterface() {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="px-8 pb-8">
-        <div className="relative">
-          <Input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyPress={handleKeyPress}
-            placeholder="Ask a question..."
-            disabled={isLoading}
-            className="w-full text-black pr-12 bg-gray-50/80 border-gray-200/50 rounded-2xl h-12 placeholder:text-gray-400 focus:bg-white focus:border-gray-300"
-          />
-          <Button
-            onClick={() => handleSendMessage(inputValue)}
-            disabled={!inputValue.trim() || isLoading}
-            size="sm"
-            className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 rounded-xl bg-blue-600 hover:bg-blue-700 border-0 shadow-none"
-          >
-            <Send className="h-4 w-4 text-white" />
-            <span className="sr-only">Send message</span>
-          </Button>
-        </div>
-      </div>
-
       {/* Quick Actions */}
       <AnimatePresence>
         {messages.length === 0 && (
@@ -367,6 +344,29 @@ export function ChatInterface() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Input Area */}
+      <div className="px-8 pb-8">
+        <div className="relative">
+          <Input
+      value={inputValue}
+      onChange={(e) => setInputValue(e.target.value)}
+      onKeyPress={handleKeyPress}
+      placeholder="Ask a question..."
+      disabled={isLoading}
+      className="px-4 py-3 text-black transition"
+    />
+          <Button
+            onClick={() => handleSendMessage(inputValue)}
+            disabled={!inputValue.trim() || isLoading}
+            size="sm"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-12 h-12 border-0 shadow-none cursor-pointer"
+          >
+            <SendHorizonal className="h-20 w-20 fill-amber-800 text-blue-900" />
+            <span className="sr-only">Send message</span>
+          </Button>
+        </div>
+      </div>
 
     </motion.div>
   );

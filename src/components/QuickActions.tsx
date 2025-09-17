@@ -140,7 +140,6 @@ export function QuickActions({ onQuickAction }: QuickActionsProps) {
         className="text-center"
         variants={footerVariants}
       >
-        <p className="text-xs text-gray-400 font-normal">Powered by Claude</p>
       </motion.div>
     </motion.div>
   );

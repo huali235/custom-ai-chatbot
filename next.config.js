@@ -6,6 +6,36 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // Fix Chrome compatibility issue with React 19 + Next.js 15
+  webpack: (config, { dev, isServer }) => {
+    // Ensure proper module resolution for Chrome
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+    };
+    
+    // Fix module loading issues in development
+    if (dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              name: false,
+              chunks: 'all',
+              minChunks: 1,
+              priority: -20,
+              reuseExistingChunk: true
+            }
+          }
+        }
+      };
+    }
+    
+    return config;
+  },
+  
   // Image optimization
   images: {
     formats: ['image/webp', 'image/avif'],
