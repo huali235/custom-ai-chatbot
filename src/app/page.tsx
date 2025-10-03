@@ -1,10 +1,10 @@
 import Image from "next/image";
+import { ChatInterface } from "./components/ChatInterface";
 
 export default function Home() {
   return (
     <div>
-      <h1>Hello</h1>
-      <p>This is going to be a custom UI chatbot using Vercel's AI SDK</p>
+      <ChatInterface />
     </div>
   );
 }
