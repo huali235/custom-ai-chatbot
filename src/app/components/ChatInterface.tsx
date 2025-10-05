@@ -2,6 +2,7 @@
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
+import ReactMarkdown from 'react-markdown';
 
 export const ChatInterface = () => {
     const { messages, sendMessage, status } = useChat({
@@ -21,16 +22,6 @@ export const ChatInterface = () => {
         }
     };
 
-    const handleQuickAction = (text: string) => {
-        sendMessage({ text });
-    };
-
-    const quickActions = [
-        { emoji: '😊', text: 'Booking the hotel' },
-        { emoji: '🎎', text: 'Popular tourist attractions' },
-        { emoji: '🚗', text: 'rent a car for my trip' },
-    ];
-
     const isTyping = status === 'streaming';
 
     return (
@@ -45,9 +36,11 @@ export const ChatInterface = () => {
                                 <div className="font-semibold text-sm text-gray-600">
                                     {message.role === 'user' ? 'User' : 'AI'}
                                 </div>
-                                <div className="text-gray-900">
+                                <div className="text-gray-900 prose prose-sm max-w-none">
                                     {message.parts.map((part, index) =>
-                                        part.type === 'text' ? <span key={index}>{part.text}</span> : null
+                                        part.type === 'text' ? (
+                                            <ReactMarkdown key={index}>{part.text}</ReactMarkdown>
+                                        ) : null
                                     )}
                                 </div>
                             </div>
@@ -105,21 +98,6 @@ export const ChatInterface = () => {
                         </button>
                     </div>
                 </form>
-
-                {/* Quick Actions */}
-                <div className="flex flex-wrap gap-3">
-                    {quickActions.map((action, index) => (
-                        <button
-                            key={index}
-                            onClick={() => handleQuickAction(action.text)}
-                            disabled={status !== 'ready'}
-                            className="inline-flex items-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl hover:border-gray-300 hover:shadow-md transition-all text-sm font-medium text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <span className="text-base">{action.emoji}</span>
-                            <span>{action.text}</span>
-                        </button>
-                    ))}
-                </div>
 
                 {/* Typing Indicator */}
                 {isTyping && (
