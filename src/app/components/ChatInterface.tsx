@@ -1,10 +1,14 @@
 'use client';
 
+import { useState } from 'react';
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 import ReactMarkdown from 'react-markdown';
+import { Sidebar } from './Sidebar';
 
 export const ChatInterface = () => {
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
     const { messages, sendMessage, status } = useChat({
         transport: new DefaultChatTransport({
             api: '/api/chat'
@@ -25,7 +29,12 @@ export const ChatInterface = () => {
     const isTyping = status === 'streaming';
 
     return (
-        <div className="min-h-screen flex flex-col p-4">
+        <>
+            {/* Sidebar */}
+            <Sidebar isOpen={isSidebarOpen} onToggle={() => setIsSidebarOpen(!isSidebarOpen)} />
+
+            {/* Main Content */}
+            <div className="min-h-screen flex flex-col p-4">
             {/* Main Card - Only show when no messages */}
             {messages.length === 0 && (
                 <div className="flex-1 flex items-center justify-center">
@@ -172,6 +181,7 @@ export const ChatInterface = () => {
                     </div>
                 </>
             )}
-        </div>
+            </div>
+        </>
     );
 }
